@@ -1,6 +1,6 @@
 # コード読解エージェント
 
-汎用的なコード読解エージェントシステム。プロジェクトのコードを体系的に分析し、構造化ドキュメントと関数詳細ドキュメントを自動生成。
+汎用的なコード読解エージェントシステム。プロジェクトのコードを体系的に分析し、構造化ドキュメントと関数詳細ドキュメントを自動生成する。
 
 ## 使い方
 
@@ -42,6 +42,64 @@
 - **サブエージェント活用**: 複雑な調査でコンテキスト汚染を回避
 - **反復改善**: レビューエージェントが品質をチェックし、不足があれば追加調査
 - **網羅的**: 構造と関数の両面から完全に文書化
+
+## インストール方法
+
+インストール先。
+
+|対象|常に使う場合|特定のPJでのみ使う場合|
+|---|---|---|
+|Linux|~/.copilot/ (要設定)|.github/|
+|Windows|%USERPROFILE%/.copilot/ (要設定)|.github/|
+
+インストール先を決めたら、そのディレクトリに、以下のうち、agents, docs, promptsの3ディレクトリの中身を構造をたもったままコピーする。
+
+```
+codereader-agent/
+├── README.md
+├── agents
+│   ├── codereader.function-documenter.agent.md
+│   ├── codereader.investigator.agent.md
+│   ├── codereader.planner.agent.md
+│   ├── codereader.reviewer.agent.md
+│   └── codereader.structure-documenter.agent.md
+├── docs
+│   └── code-reading-guidelines.md
+└── prompts
+    ├── codereader.function-documenter.prompt.md
+    ├── codereader.investigator.prompt.md
+    ├── codereader.planner.prompt.md
+    ├── codereader.reviewer.prompt.md
+    └── codereader.structure-documenter.prompt.md
+```
+
+例えば、以下のようなコマンドでコピーできる。
+
+```sh
+$ mkdir -p ~/.copilot
+$ cp -r codereader-agent/*/*.md ~/.copilot
+```
+
+## VSCの設定
+
+以下を有効にする。
+
+```
+{
+    "chat.useAgentSkills": true,
+    "chat.customAgentInSubagent.enabled": true,
+    "chat.agentFilesLocations": {
+        "~/.copilot/agents": true,
+        "%USERPROFILE%/.copilot/agents": true
+    },
+    "chat.promptFilesLocations": {
+        "~/.copilot/prompts": true,
+        "%USERPROFILE%/.copilot/prompts": true
+    }
+}
+```
+
+VSC1.109.0以降で、上記の`*FilesLocations`を設定することで、ユーザーのホームの`.copilot`から共通のagentsやpromptsを利用できる。
 
 ## 参考ドキュメント
 
